@@ -11,8 +11,14 @@ module.exports = class {
       this.client.appInfo = await this.client.fetchApplication();
     }, 60000);
 
-    this.client.user.setActivity("On verra");
+    this.client.user.setActivity("Me want banana !");
 
-    this.client.logger.log(`${this.client.user.username} est prêt !`, "ready");
+    const channel = this.client.channels.find(
+      c => c.name == "bot-reboot" && c.type == "text"
+    );
+
+    channel.send(`:gear: ${this.client.user.username} est redémarré !`);
+
+    this.client.logger.log(`${this.client.user.username} run...`, "ready");
   }
 };

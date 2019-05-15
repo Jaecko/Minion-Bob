@@ -50,7 +50,7 @@ class Bob extends Client {
       const props = new (require(`${commandPath}${path.sep}${commandName}`))(
         this
       );
-      this.logger.log(`Chargement de la commande : ${props.help.name}`, "log");
+      this.logger.log(`[COMMAND] ${props.help.name} charged !`, "log");
       props.conf.location = commandPath;
       if (props.init) {
         props.init(this);
@@ -63,6 +63,25 @@ class Bob extends Client {
     } catch (e) {
       return `Impossible de charger la commande ${commandName}: ${e}`;
     }
+  }
+
+  async unloadCommand(commandPath, commandName) {
+    let command;
+    if (this.command.has(commandName)) {
+      command = this.commands.get(commandName);
+    } else if (this.aliases.has(commandName)) {
+      command = this.commands.get(this.aliases.get(commandName));
+    }
+    if (!command)
+      return `La command ${commandName} ne semble pas exister. Essayez à nouveau.`;
+
+    if (command.shutdown) {
+      await command.shutdown(this);
+    }
+    delete require.cache[
+      require.resolve(`${commandPath}${path.sep}${commandName}.js`)
+    ];
+    return false;
   }
 
   getSettings(guild) {
@@ -94,10 +113,10 @@ const init = async () => {
 
   // Récupération des événements
   const evtFiles = await readdir("./events");
-  client.logger.log(`Chargement de ${evtFiles.length} événements.`, "log");
+  // client.logger.log(`Chargement de ${evtFiles.length} événements.`, "log");
   evtFiles.forEach(file => {
     const eventName = file.split(".")[0];
-    client.logger.log(`Chargement de l'événement : ${eventName}`);
+    client.logger.log(`[EVENT] ${eventName} charged !`);
     const event = new (require(`./events/${file}`))(client);
     client.on(eventName, (...args) => event.run(...args));
     delete require.cache[require.resolve(`./events/${file}`)];

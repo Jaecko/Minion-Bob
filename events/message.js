@@ -22,7 +22,10 @@ module.exports = class {
     if (args[0] !== `${settings.prefix}${settings.command}`) return;
     args.shift();
 
-    const command = args.shift().toLowerCase();
+    let command = "";
+    if (!args[0]) args[0] = "help";
+
+    command = args.shift().toLowerCase();
 
     if (message.guild && !message.member)
       await message.guild.fetchMember(message.author);
@@ -51,16 +54,16 @@ module.exports = class {
 
     message.author.permLevel = level;
 
-    message.flags = [];
-    while (args[0] && args[0][0] === "-") {
-      message.flags.push(args.shift().slice(1));
-    }
+    // message.flags = [];
+    // while (args[0] && args[0][0] === "-") {
+    //   message.flags.push(args.shift().slice(1));
+    // }
 
     // Lancement de la commande
     this.client.logger.log(
-      `${this.client.config.permLevels.find(l => l.level === level).name} ${
+      `[${this.client.config.permLevels.find(l => l.level === level).name}]${
         message.author.username
-      } (${message.author.id}) lance la commande ${cmd.help.name}`
+      }(ID:${message.author.id}) lance la commande ${cmd.help.name}`
     );
     cmd.run(message, args, level);
   }
