@@ -59,8 +59,8 @@ class Server extends Command {
       const JoinYear = JoinDate.getFullYear();
       const JoinFullDate = JoinDay + ' ' + JoinMonth + ' ' + JoinYear;
       const servEmbed = new Discord.RichEmbed()
-        .setDescription('Information sur le serveur')
-        .setColor('#dc143c')
+        .setTitle('Information sur le serveur')
+        .setColor('#f4ee42')
         .setThumbnail(servIcon)
         .addField('Nom du serveur', message.guild.name)
         .addField('Membres', numbers['members'])
