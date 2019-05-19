@@ -1,14 +1,14 @@
 /* eslint-disable */
 
-const Command = require("../../modules/Command.js");
+const Command = require('../../modules/Command.js');
 
 class Help extends Command {
   constructor(client) {
     super(client, {
-      name: "help",
-      description: "Montrer toutes les commandes disponibles.",
-      usage: "help <commande>",
-      aliases: ["h"]
+      name: 'help',
+      description: 'Montrer toutes les commandes disponibles.',
+      usage: 'help <commande>',
+      aliases: ['h']
     });
   }
 
@@ -32,20 +32,28 @@ class Help extends Command {
           (long, str) => Math.max(long, str.length),
           0
         );
-        let currentCat = "";
+        let currentCat = '';
         let output = `= Liste des commandes =\n\nToutes les commandes commencent par ${
           this.client.config.defaultSettings.prefix
-        }${this.client.config.defaultSettings.command}\n\n[Use ${
+        }${this.client.config.defaultSettings.command}\n\n[Utilisez ${
           this.client.config.defaultSettings.prefix
         }${
           this.client.config.defaultSettings.command
         } help <nom de la commande> pour plus de détails.]\n`;
         const sorted = myCommands.array().sort((p, c) => {
-          p.help.category > c.help.category
-            ? 1
-            : p.help.name > c.help.name && p.help.category === c.help.category
-            ? 1
-            : -1;
+          if (p.help.category === c.help.category) {
+            if (p.help.name > c.help.name) {
+              return 1;
+            } else {
+              return 0;
+            }
+          } else if (p.help.category > c.help.category) {
+            return 1;
+          } else if (p.help.category < c.help.category) {
+            return -1;
+          } else {
+            return 0;
+          }
         });
         sorted.forEach(c => {
           // const cat = c.help.category.toProperCase();
@@ -54,13 +62,13 @@ class Help extends Command {
             output += `\u200b\n== ${cat} == \n`;
             currentCat = cat;
           }
-          output += `${c.help.name}${" ".repeat(
+          output += `${c.help.name}${' '.repeat(
             longest - c.help.name.length
           )} :: ${c.help.description}\n`;
         });
         message.channel.send(output, {
-          code: "asciidoc",
-          split: { char: "\u200b" }
+          code: 'asciidoc',
+          split: { char: '\u200b' }
         });
       } else {
         let command = args[0];
@@ -72,8 +80,8 @@ class Help extends Command {
               command.help.description
             }\nUtilisation :: ${
               command.help.usage
-            }\nAlias       :: ${command.conf.aliases.join(", ")}`,
-            { code: "asciidoc" }
+            }\nAlias       :: ${command.conf.aliases.join(', ')}`,
+            { code: 'asciidoc' }
           );
         }
       }

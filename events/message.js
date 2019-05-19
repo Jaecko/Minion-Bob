@@ -6,8 +6,9 @@ module.exports = class {
 
   async run(message) {
     if (message.author.bot) return;
+    if (message.channel.type === 'dm') return;
     if (
-      !message.channel.permissionsFor(message.guild.me).missing("SEND_MESSAGES")
+      !message.channel.permissionsFor(message.guild.me).missing('SEND_MESSAGES')
     )
       return;
 
@@ -22,8 +23,8 @@ module.exports = class {
     if (args[0] !== `${settings.prefix}${settings.command}`) return;
     args.shift();
 
-    let command = "";
-    if (!args[0]) args[0] = "help";
+    let command = '';
+    if (!args[0]) args[0] = 'help';
 
     command = args.shift().toLowerCase();
 
@@ -39,7 +40,7 @@ module.exports = class {
 
     // Vérifie si l'utilisateur à le niveau de permission
     if (level < this.client.levelCache[cmd.conf.permLevel]) {
-      if (settings.systemNotice === "true") {
+      if (settings.systemNotice === 'true') {
         return message.channel
           .send(`Vous n'avez pas la permission d'utiliser cette commande. Votre niveau de permission est ${level} (${
           this.client.config.permLevel.find(l => l.level === level).name
@@ -63,7 +64,7 @@ module.exports = class {
     this.client.logger.log(
       `[${this.client.config.permLevels.find(l => l.level === level).name}]${
         message.author.username
-      }(ID:${message.author.id}) lance la commande ${cmd.help.name}`
+      }(ID:${message.author.id}) cast ${cmd.help.name}`
     );
     cmd.run(message, args, level);
   }

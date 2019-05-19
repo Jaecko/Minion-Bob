@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = class {
   constructor(client) {
     this.client = client;
@@ -11,14 +12,14 @@ module.exports = class {
       this.client.appInfo = await this.client.fetchApplication();
     }, 60000);
 
-    this.client.user.setActivity("Me want banana !");
+    this.client.user.setActivity('Me want banana !');
 
     const channel = this.client.channels.find(
-      c => c.name == "bot-reboot" && c.type == "text"
+      c => c.name == 'bob-reboot' && c.type == 'text'
     );
 
     channel.send(`:gear: ${this.client.user.username} est redémarré !`);
 
-    this.client.logger.log(`${this.client.user.username} run...`, "ready");
+    this.client.logger.log(`${this.client.user.username} run...`, 'ready');
   }
 };
