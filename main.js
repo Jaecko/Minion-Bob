@@ -1,30 +1,32 @@
+/*  https://discordapp.com/oauth2/authorize?client_id=575248511457820673&scope=bot */
+
 /* eslint-disable */
-const { Client, Collection } = require('discord.js');
-const { promisify } = require('util');
-const readdir = promisify(require('fs').readdir);
-const Enmap = require('enmap');
-const klaw = require('klaw');
-const path = require('path');
-require('dotenv').config();
+const { Client, Collection } = require("discord.js");
+const { promisify } = require("util");
+const readdir = promisify(require("fs").readdir);
+const Enmap = require("enmap");
+const klaw = require("klaw");
+const path = require("path");
+require("dotenv").config();
 
 class Bob extends Client {
   constructor(options) {
     super(options);
 
-    this.config = require('./config.js');
+    this.config = require("./config.js");
 
     this.commands = new Collection();
     this.aliases = new Collection();
 
     this.settings = new Enmap({
-      name: 'settings',
-      cloneLevel: 'deep',
+      name: "settings",
+      cloneLevel: "deep",
       fetchAll: false,
       autoFetch: true
     });
 
-    this.logger = require('./modules/Logger');
-    this.wait = require('util').promisify(setTimeout);
+    this.logger = require("./modules/Logger");
+    this.wait = require("util").promisify(setTimeout);
   }
 
   // permissions
@@ -51,7 +53,7 @@ class Bob extends Client {
       const props = new (require(`${commandPath}${path.sep}${commandName}`))(
         this
       );
-      this.logger.log(`[COMMAND] ${props.help.name} charged !`, 'log');
+      this.logger.log(`[COMMAND] ${props.help.name} charged !`, "log");
       props.conf.location = commandPath;
       if (props.init) {
         props.init(this);
@@ -102,9 +104,9 @@ console.log(client.config.permLevels.map(p => `${p.level}: ${p.name}`));
 // Fonction d'initialisation
 const init = async () => {
   // Récupération des commandes
-  klaw('./commands').on('data', item => {
+  klaw("./commands").on("data", item => {
     const cmdFile = path.parse(item.path);
-    if (!cmdFile.ext || cmdFile.ext !== '.js') return;
+    if (!cmdFile.ext || cmdFile.ext !== ".js") return;
     const response = client.loadCommand(
       cmdFile.dir,
       `${cmdFile.name}${cmdFile.ext}`
@@ -113,10 +115,10 @@ const init = async () => {
   });
 
   // Récupération des événements
-  const evtFiles = await readdir('./events');
+  const evtFiles = await readdir("./events");
   // client.logger.log(`Chargement de ${evtFiles.length} événements.`, "log");
   evtFiles.forEach(file => {
-    const eventName = file.split('.')[0];
+    const eventName = file.split(".")[0];
     client.logger.log(`[EVENT] ${eventName} charged !`);
     const event = new (require(`./events/${file}`))(client);
     client.on(eventName, (...args) => event.run(...args));
