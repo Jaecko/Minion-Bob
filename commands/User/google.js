@@ -1,6 +1,6 @@
 /* eslint-disable */
 const Command = require('../../modules/Command.js');
-const opn = require('opn');
+const opn = require('open');
 
 class Google extends Command {
   constructor(client) {
