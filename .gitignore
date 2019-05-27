@@ -2,6 +2,7 @@
 /node_modules
 /onProgress
 config.json
+yarn.lock
 
 # Logs
 logs
