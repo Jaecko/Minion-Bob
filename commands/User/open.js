@@ -1,20 +1,20 @@
 /* eslint-disable */
-const Command = require('../../modules/Command.js');
-const open = require('open');
+const Command = require("../../modules/Command.js");
+const open = require("open");
 // const start = require('open');
 // const xdg-open = require('open');
 
 class Open extends Command {
   constructor(client) {
     super(client, {
-      name: 'open',
+      name: "open",
       description: "Ouvre le lien, le fichier ou l'exécutable demandé.",
-      usage: 'open <lien>'
+      usage: "open <lien>"
     });
   }
   async run(message, args) {
     try {
-      const lien = `${args.join('%20')}`;
+      const lien = `${args.join("%20")}`;
       message.delete(100);
       // if (process.platform === 'darwin') {
       //   open(lien);
@@ -31,9 +31,9 @@ class Open extends Command {
       //   )
       // );
 
-      const channel = this.client.channels.find(
-        c => c.name == 'bob-links' && c.type == 'text'
-      );
+      const channel = this.client.guilds
+        .find(g => g.id == message.guild.id)
+        .channels.find(c => c.name == "bob-links" && c.type == "text");
       await channel.send(`${message.author}, voici votre lien : ${lien}`);
     } catch (e) {
       console.log(e);

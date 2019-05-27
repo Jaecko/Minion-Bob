@@ -16,9 +16,9 @@ class Reboot extends Command {
   async run(message) {
     try {
       message.delete(100);
-      const channel = this.client.channels.find(
-        c => c.name == "bot-reboot" && c.type == "text"
-      );
+      const channel = this.client.guilds
+        .find(g => g.id == message.guild.id)
+        .channels.find(c => c.name == "bob-reboot" && c.type == "text");
       await channel.send(
         `:gear: ${this.client.user.username} est occupé à redémarrer !`
       );

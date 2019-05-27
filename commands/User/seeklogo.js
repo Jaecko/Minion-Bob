@@ -17,9 +17,10 @@ class SeekLogo extends Command {
       const lien = `https://seeklogo.com/search?q=${args.join("%20")}`;
       message.delete(100);
       // opn(lien);
-      const channel = this.client.channels.find(
-        c => c.name == "bob-links" && c.type == "text"
-      );
+      const channel = this.client.guilds
+        .find(g => g.id == message.guild.id)
+        .channels.find(c => c.name == "bob-links" && c.type == "text");
+
       await channel.send(
         `${message.author}, voici votre lien vers SeekLogo : ${lien}`
       );

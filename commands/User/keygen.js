@@ -94,9 +94,9 @@ class Keygen extends Command {
       }
 
       message.delete(100);
-      const channel = this.client.channels.find(
-        c => c.name == "bob-keygen" && c.type == "text"
-      );
+      const channel = this.client.guilds
+        .find(g => g.id == message.guild.id)
+        .channels.find(c => c.name == "bob-keygen" && c.type == "text");
       tab_key.length == 1
         ? await channel.send(
             `${message.author}, votre clé de ${num_char} caractères :`
@@ -106,8 +106,7 @@ class Keygen extends Command {
           );
       tab_key.map(key => {
         // message.channel.send('```' + key + '```');
-        // channel.send(key, {
-        message.channel.send(key, {
+        channel.send(key, {
           code: "asciidoc",
           split: { char: "\u200b" }
         });
