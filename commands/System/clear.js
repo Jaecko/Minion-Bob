@@ -21,15 +21,27 @@ class Clear extends Command {
       let clear = args[0];
       if (clear <= 99) clear++;
       if (!args[0]) clear = 100;
+      // message.channel
+      //   .bulkDelete(
+      //     (time.time() - 14 * 24 * 60 * 60) * 1000.0),
+      //     clear
+      //   )
+      //   .then(msg => {
+      //     message.channel
+      //       .send(`J'ai supprimé ***${msg.size - 1} messages*** pour vous !`)
+      //       .then(msg => msg.delete(5000));
+      //   });
+
       message.channel
-        .bulkDelete(
-          time.time() - 14 * 24 * 60 * 60) * 1000.0,
-          clear
-        )
-        .then(msg => {
-          message.channel
-            .send(`J'ai supprimé ***${msg.size - 1} messages*** pour vous !`)
-            .then(msg => msg.delete(5000));
+        .fetchMessages({
+          limit: 100 // Fetch last 50 messages.
+        })
+        .then(msgCollection => {
+          // Resolve promise
+          msgCollection.forEach(msg => {
+            // forEach on message collection
+            msg.delete(); // Delete each message
+          });
         });
     } catch (e) {
       console.log(e);
