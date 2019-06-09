@@ -38,19 +38,17 @@ class Clear extends Command {
         })
         .then(msgCollection => {
           // Resolve promise
-          msgCollection
-            .forEach(msg => {
-              // forEach on message collection
-              msg.delete(); // Delete each message
-            })
-            .then(
-              message.channel
-                .send(
-                  `J'ai supprimé ***${msgCollection.size -
-                    1} messages*** pour vous !`
-                )
-                .then(msg => msg.delete(5000))
-            );
+          msgCollection.forEach(msg => {
+            // forEach on message collection
+            msg.delete(); // Delete each message
+          });
+
+          message.channel
+            .send(
+              `J'ai supprimé ***${msgCollection.size -
+                1} messages*** pour vous !`
+            )
+            .then(msg => msg.delete(5000));
         });
     } catch (e) {
       console.log(e);
