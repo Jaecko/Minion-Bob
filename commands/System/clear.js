@@ -34,7 +34,7 @@ class Clear extends Command {
 
       message.channel
         .fetchMessages({
-          limit: 100 // Fetch last 50 messages.
+          limit: clear // Fetch last 50 messages.
         })
         .then(msgCollection => {
           // Resolve promise
@@ -42,6 +42,12 @@ class Clear extends Command {
             // forEach on message collection
             msg.delete(); // Delete each message
           });
+          message.channel
+            .send(
+              `J'ai supprimé ***${msgCollection.size -
+                1} messages*** pour vous !`
+            )
+            .then(msg => msg.delete(5000));
         });
     } catch (e) {
       console.log(e);
