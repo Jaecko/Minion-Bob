@@ -23,7 +23,7 @@ class Clear extends Command {
       if (!args[0]) clear = 100;
       message.channel
         .bulkDelete(
-          long((time.time() - 14 * 24 * 60 * 60) * 1000.0) << 22,
+          time.time() - 14 * 24 * 60 * 60) * 1000.0,
           clear
         )
         .then(msg => {
