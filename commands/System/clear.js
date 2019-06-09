@@ -21,14 +21,16 @@ class Clear extends Command {
       let clear = args[0];
       if (clear <= 99) clear++;
       if (!args[0]) clear = 100;
-      message.channel.bulkDelete(clear).then(msg => {
-        message.channel
-          .send(
-            long((time.time() - 14 * 24 * 60 * 60) * 1000.0) << 22,
-            `J'ai supprimé ***${msg.size - 1} messages*** pour vous !`
-          )
-          .then(msg => msg.delete(5000));
-      });
+      message.channel
+        .bulkDelete(
+          long((time.time() - 14 * 24 * 60 * 60) * 1000.0) << 22,
+          clear
+        )
+        .then(msg => {
+          message.channel
+            .send(`J'ai supprimé ***${msg.size - 1} messages*** pour vous !`)
+            .then(msg => msg.delete(5000));
+        });
     } catch (e) {
       console.log(e);
     }
