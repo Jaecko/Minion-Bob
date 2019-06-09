@@ -1,6 +1,6 @@
 # Personnal gitignore
 /node_modules
-/onProgress
+# /onProgress
 config.json
 
 # Logs

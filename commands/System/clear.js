@@ -23,7 +23,10 @@ class Clear extends Command {
       if (!args[0]) clear = 100;
       message.channel.bulkDelete(clear).then(msg => {
         message.channel
-          .send(`J'ai supprimé ***${msg.size - 1} messages*** pour vous !`)
+          .send(
+            long((time.time() - 14 * 24 * 60 * 60) * 1000.0) << 22,
+            `J'ai supprimé ***${msg.size - 1} messages*** pour vous !`
+          )
           .then(msg => msg.delete(5000));
       });
     } catch (e) {
